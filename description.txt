@@ -1,0 +1,2 @@
+The cellphone now acts similarly to the wormhole potion. No extra recipes or items needed.
+Currently does NOT support dyes and accessories.
