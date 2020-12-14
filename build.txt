@@ -1,3 +1,4 @@
 author = SheepishShepherd
-version = 0.1
+homepage = https://forums.terraria.org/index.php?threads/cellphone-is-wormhole.79685/
+version = 1.2.2
 displayName = Cellphone is Wormhole
