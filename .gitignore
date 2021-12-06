@@ -7,4 +7,5 @@
 /Properties
 *.sln
 *.mdp
-/bin/Debug
+workshop.json
+/bin/Debug/
