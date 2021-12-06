@@ -6,4 +6,5 @@
 /obj
 /Properties
 *.sln
-*.csproj
+*.mdp
+/bin/Debug

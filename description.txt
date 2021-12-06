@@ -1,4 +1,1 @@
-The cellphone now acts identical to the wormhole potion with no extra items or recipes required.
-Map icons currently lack support for vanilla and modded dyes.
-
-Please report any issues to my Homepage's forum thread.
+The cellphone now acts identical to the wormhole potion with no extra items or recipes required. Please report any issues to my Homepage's forum thread.
