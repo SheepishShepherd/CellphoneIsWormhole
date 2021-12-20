@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CellphoneIsWormhole
@@ -22,20 +19,20 @@ namespace CellphoneIsWormhole
 
 		private static bool Player_HasUnityPotion(On.Terraria.Player.orig_HasUnityPotion orig, Player player)
 		{
-			for (int i = 0; i < 58; i++)
-			{
-				if (player.inventory[i].type == ItemID.CellPhone && player.inventory[i].stack > 0)
+			for (int i = 0; i < Main.InventorySlotsTotal; i++) {
+				if (player.inventory[i].type == ItemID.CellPhone && player.inventory[i].stack > 0) {
 					return true;
+				}
 			}
 			return orig(player);
 		}
 
 		private static void Player_TakeUnityPotion(On.Terraria.Player.orig_TakeUnityPotion orig, Player player)
 		{
-			for (int i = 0; i < 58; i++)
-			{
-				if (player.inventory[i].type == ItemID.CellPhone && player.inventory[i].stack > 0)
+			for (int i = 0; i < Main.InventorySlotsTotal; i++) {
+				if (player.inventory[i].type == ItemID.CellPhone && player.inventory[i].stack > 0) {
 					return;
+				}
 			}
 			orig(player);
 		}
