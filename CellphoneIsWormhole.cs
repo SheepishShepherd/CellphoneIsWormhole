@@ -7,7 +7,8 @@ namespace CellphoneIsWormhole
 {
     class CellphoneIsWormhole : Mod
     {
-        public CellphoneIsWormhole() {
+        public CellphoneIsWormhole()
+		{
 
 		}
 
