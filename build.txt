@@ -1,4 +1,4 @@
 author = SheepishShepherd
 homepage = https://forums.terraria.org/index.php?threads/sheepish-shepherds-small-mods.79685/
-version = 1.4
+version = 1.4.1
 displayName = Cellphone is Wormhole
