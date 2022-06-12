@@ -2,24 +2,24 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace CellphoneIsWormhole
 {
 	class CellphoneIsWormhole : Mod
 	{
-		public CellphoneIsWormhole()
-		{
+		public CellphoneIsWormhole() {
 
 		}
 
-		public override void Load()
-		{
+		public override void Load() {
 			On.Terraria.Player.HasUnityPotion += Player_HasUnityPotion;
 			On.Terraria.Player.TakeUnityPotion += Player_TakeUnityPotion;
 		}
 
-		private static bool Player_HasUnityPotion(On.Terraria.Player.orig_HasUnityPotion orig, Player player)
-		{
+		// Normally, this method would only check to see if a player has a wormhole potion
+		// Now the method will be also return true if the player has a cell phone
+		private static bool Player_HasUnityPotion(On.Terraria.Player.orig_HasUnityPotion orig, Player player) {
 			for (int i = 0; i < Main.InventorySlotsTotal; i++) {
 				if (player.inventory[i].type == ItemID.CellPhone && player.inventory[i].stack > 0) {
 					return true;
@@ -28,8 +28,9 @@ namespace CellphoneIsWormhole
 			return orig(player);
 		}
 
-		private static void Player_TakeUnityPotion(On.Terraria.Player.orig_TakeUnityPotion orig, Player player)
-		{
+		// Normally, this method would consume 1 wormhole potion from a player's inventory to teleport
+		// Now the method will prevent consuming wormhole potions if the player has cellphone to teleport with
+		private static void Player_TakeUnityPotion(On.Terraria.Player.orig_TakeUnityPotion orig, Player player) {
 			for (int i = 0; i < Main.InventorySlotsTotal; i++) {
 				if (player.inventory[i].type == ItemID.CellPhone && player.inventory[i].stack > 0) {
 					return;
@@ -41,31 +42,25 @@ namespace CellphoneIsWormhole
 
 	class CellphoneTweak : GlobalItem
 	{
-		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-		{
-			// Add the wormhole potion's tooltips to the cellphone as they now function identically
+		// Add the wormhole potion's tooltips to the cellphone as they now function identically
+		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
 			if (item.type == ItemID.CellPhone) {
-				TooltipLine line = new TooltipLine(Mod, "CiW_WormholeTooltip1", Lang.GetTooltip(ItemID.WormholePotion).GetLine(0).ToString());
-				TooltipLine line2 = new TooltipLine(Mod, "CiW_WormholeTooltip2", Lang.GetTooltip(ItemID.WormholePotion).GetLine(1).ToString());
-				int index = tooltips.FindIndex(tt => tt.Mod == "Terraria" && (tt.Name == "Expert" || tt.Name.EndsWith("Price")));
-				if (index != -1) {
-					tooltips.Insert(index, line);
-					tooltips.Insert(index + 1, line2);
-				}
-				else {
-					tooltips.Add(line);
-					tooltips.Add(line2);
-				}
-			}
-		}
+				ItemTooltip WormholeTooltips = Lang.GetTooltip(ItemID.WormholePotion);
+				TooltipLine[] modToolTip = new TooltipLine[] {
+					new TooltipLine(Mod, "CiW_1", WormholeTooltips.GetLine(0) + " also holding a cell phone"),
+					new TooltipLine(Mod, "CiW_2", WormholeTooltips.GetLine(1)),
+				};
 
-		public override bool ConsumeItem(Item item, Player player)
-		{
-			// Prevent wormhole potions from being consumed while holding a cellphone
-			if (Main.LocalPlayer.HasItem(ItemID.CellPhone) && item.type == ItemID.WormholePotion) {
-				return false;
+				// Find the spots for the last tooltips. Before the price tooltip but after everything else.
+				// Expert/Master tooltips don't need to be checked since the item is not expert/master exclusive
+				int index = tooltips.FindIndex(tt => tt.Mod == "Terraria" && tt.Name.EndsWith("Price"));
+				for (int i = 0; i < modToolTip.Length; i++) {
+					if (index != -1)
+						tooltips.Insert(index + i, modToolTip[i]);
+					else
+						tooltips.Add(modToolTip[i]);
+				}
 			}
-			return base.ConsumeItem(item, player);
 		}
 	}
 }
