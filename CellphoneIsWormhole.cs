@@ -20,23 +20,16 @@ namespace CellphoneIsWormhole
 		// Normally, this method would only check to see if a player has a wormhole potion
 		// Now the method will be also return true if the player has a cell phone
 		private static bool Player_HasUnityPotion(On.Terraria.Player.orig_HasUnityPotion orig, Player player) {
-			for (int i = 0; i < Main.InventorySlotsTotal; i++) {
-				if (player.inventory[i].type == ItemID.CellPhone && player.inventory[i].stack > 0) {
-					return true;
-				}
-			}
-			return orig(player);
+			return player.HasItem(ItemID.CellPhone) || orig(player);
 		}
 
 		// Normally, this method would consume 1 wormhole potion from a player's inventory to teleport
 		// Now the method will prevent consuming wormhole potions if the player has cellphone to teleport with
 		private static void Player_TakeUnityPotion(On.Terraria.Player.orig_TakeUnityPotion orig, Player player) {
-			for (int i = 0; i < Main.InventorySlotsTotal; i++) {
-				if (player.inventory[i].type == ItemID.CellPhone && player.inventory[i].stack > 0) {
-					return;
-				}
-			}
-			orig(player);
+			if (player.HasItem(ItemID.CellPhone))
+				return;
+			else
+				orig(player);
 		}
 	}
 
@@ -47,7 +40,7 @@ namespace CellphoneIsWormhole
 			if (item.type == ItemID.CellPhone) {
 				ItemTooltip WormholeTooltips = Lang.GetTooltip(ItemID.WormholePotion);
 				TooltipLine[] modToolTip = new TooltipLine[] {
-					new TooltipLine(Mod, "CiW_1", WormholeTooltips.GetLine(0) + " also holding a cell phone"),
+					new TooltipLine(Mod, "CiW_1", WormholeTooltips.GetLine(0)),
 					new TooltipLine(Mod, "CiW_2", WormholeTooltips.GetLine(1)),
 				};
 
