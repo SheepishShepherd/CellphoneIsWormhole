@@ -1,1 +1,2 @@
-The cellphone now acts nearly identical to the wormhole potion with no extra items or recipes required. Currently, this mod does not keep balance in mind. Please report any issues to my Homepage's forum thread.
+The power to teleport to your friends is in the palm of your hands... in the form of a cell phone!
+As long as a cell phone or shell phone is in your inventory or within an open void bag, you are able to teleport to other players similarly to a wormhole potion.

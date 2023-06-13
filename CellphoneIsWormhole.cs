@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,23 +14,37 @@ namespace CellphoneIsWormhole
 		}
 
 		public override void Load() {
-			On.Terraria.Player.HasUnityPotion += Player_HasUnityPotion;
-			On.Terraria.Player.TakeUnityPotion += Player_TakeUnityPotion;
+			On_Player.HasUnityPotion += Player_HasUnityPotion;
+			On_Player.TakeUnityPotion += Player_TakeUnityPotion;
 		}
+
+		public static int[] IsConsideredUnityPotion = new int[] {
+			ItemID.CellPhone,
+			ItemID.Shellphone,
+			ItemID.ShellphoneDummy,
+			ItemID.ShellphoneHell,
+			ItemID.ShellphoneOcean,
+			ItemID.ShellphoneSpawn,
+		};
 
 		// Normally, this method would only check to see if a player has a wormhole potion
 		// Now the method will be also return true if the player has a cell phone
-		private static bool Player_HasUnityPotion(On.Terraria.Player.orig_HasUnityPotion orig, Player player) {
-			return player.HasItem(ItemID.CellPhone) || orig(player);
+		private static bool Player_HasUnityPotion(On_Player.orig_HasUnityPotion orig, Player player) {
+			foreach (int item in IsConsideredUnityPotion) {
+				if (player.HasItemInInventoryOrOpenVoidBag(item))
+					return true;
+			}
+			return orig(player);
 		}
 
 		// Normally, this method would consume 1 wormhole potion from a player's inventory to teleport
 		// Now the method will prevent consuming wormhole potions if the player has cellphone to teleport with
-		private static void Player_TakeUnityPotion(On.Terraria.Player.orig_TakeUnityPotion orig, Player player) {
-			if (player.HasItem(ItemID.CellPhone))
-				return;
-			else
-				orig(player);
+		private static void Player_TakeUnityPotion(On_Player.orig_TakeUnityPotion orig, Player player) {
+			foreach (int item in IsConsideredUnityPotion) {
+				if (player.HasItemInInventoryOrOpenVoidBag(item))
+					return;
+			}
+			orig(player);
 		}
 	}
 
@@ -37,7 +52,7 @@ namespace CellphoneIsWormhole
 	{
 		// Add the wormhole potion's tooltips to the cellphone as they now function identically
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
-			if (item.type == ItemID.CellPhone) {
+			if (CellphoneIsWormhole.IsConsideredUnityPotion.Contains(item.type)) {
 				ItemTooltip WormholeTooltips = Lang.GetTooltip(ItemID.WormholePotion);
 				TooltipLine[] modToolTip = new TooltipLine[] {
 					new TooltipLine(Mod, "CiW_1", WormholeTooltips.GetLine(0)),
