@@ -3,7 +3,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.UI;
 
 namespace CellphoneIsWormhole
 {
@@ -28,7 +27,7 @@ namespace CellphoneIsWormhole
 		};
 
 		// Normally, this method would only check to see if a player has a wormhole potion
-		// Now the method will be also return true if the player has a cell phone
+		// Now the method will be also return true if the player has a cellphone
 		private static bool Player_HasUnityPotion(On_Player.orig_HasUnityPotion orig, Player player) {
 			foreach (int item in IsConsideredUnityPotion) {
 				if (player.HasItemInInventoryOrOpenVoidBag(item))
@@ -53,10 +52,9 @@ namespace CellphoneIsWormhole
 		// Add the wormhole potion's tooltips to the cellphone as they now function identically
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
 			if (CellphoneIsWormhole.IsConsideredUnityPotion.Contains(item.type)) {
-				ItemTooltip WormholeTooltips = Lang.GetTooltip(ItemID.WormholePotion);
 				TooltipLine[] modToolTip = new TooltipLine[] {
-					new TooltipLine(Mod, "CiW_1", WormholeTooltips.GetLine(0)),
-					new TooltipLine(Mod, "CiW_2", WormholeTooltips.GetLine(1)),
+					new TooltipLine(Mod, "WormholePotion_Tooltip1", Lang.GetTooltip(ItemID.WormholePotion).GetLine(0)),
+					new TooltipLine(Mod, "WormholePotion_Tooltip2", Lang.GetTooltip(ItemID.WormholePotion).GetLine(1)),
 				};
 
 				// Find the spots for the last tooltips. Before the price tooltip but after everything else.
