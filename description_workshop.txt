@@ -1,0 +1,7 @@
+The Cellphone and Shellphone will also function as a Wormhole Potion.
+
+[list]
+    [*]Infinite wormhole potions! No more grinding for them
+    [*]You and the player you are teleporting to must be the on the same team
+    [*]The wormhole effect will also work if the cellphone is placed within an open void bag
+[/list] 
