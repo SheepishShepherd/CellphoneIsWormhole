@@ -1,1 +1,3 @@
 The Cellphone and Shellphone will also function as a Wormhole Potion.
+
+Now works with modded cellphone upgrades!
